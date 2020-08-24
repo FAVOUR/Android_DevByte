@@ -10,9 +10,7 @@ import com.example.androiddevbyte.R
 
 class DevByteFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = DevByteFragment()
-    }
+
 
     private lateinit var viewModel: DevByteViewModel
 

@@ -41,6 +41,9 @@ dependencies {
 
     // constraint layout
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+
+    // arch components
+    // ViewModel and LiveData
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
 
@@ -63,6 +66,10 @@ dependencies {
     implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
     kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
 
+    // coroutines for getting off the UI thread
+    def coroutines = "1.0.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
 
 
     // Room dependency

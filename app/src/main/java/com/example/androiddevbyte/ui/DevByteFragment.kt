@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androiddevbyte.R
 import com.example.androiddevbyte.databinding.DevByteFragmentBinding
@@ -66,9 +67,8 @@ class DevByteFragment : Fragment() {
     ): View? {
         val binding = DevByteFragmentBinding.inflate(inflater)
 
-         binding.lifecycleOwner =viewLifecycleOwner
+        binding.lifecycleOwner =viewLifecycleOwner
 
-         binding.recyclerView.adapter = viewModelAdapter
 
         binding.viewModel =viewModel
 
@@ -89,6 +89,15 @@ class DevByteFragment : Fragment() {
             startActivity(intent)
         })
 
+
+//        binding.root.findViewById<RecyclerView>(R.id.recycler_view).apply {
+//            layoutManager = LinearLayoutManager(context)
+//            adapter = viewModelAdapter
+//        }
+
+
+         binding.recyclerView.layoutManager = LinearLayoutManager(context)
+         binding.recyclerView.adapter = viewModelAdapter
 
         // Observer for the network error.
         viewModel.eventNetworkError.observe(viewLifecycleOwner, Observer<Boolean> { isNetworkError ->

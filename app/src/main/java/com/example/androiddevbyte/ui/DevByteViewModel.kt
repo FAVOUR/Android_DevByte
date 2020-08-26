@@ -51,7 +51,7 @@ class DevByteViewModel(application: Application) :AndroidViewModel(application) 
      * A playlist of videos that can be shown on the screen. Views should use this to get access
      * to the data.
      */
-    val playList: LiveData<List<DevByteVideo>>
+    val playlist: LiveData<List<DevByteVideo>>
         get() = _playList
 
 

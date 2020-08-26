@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:isNetworkError = "@{safeUnbox(viewModel.eventNetworkError)}"
-            app:playlist = "@{viewModel.playList}"
+            app:playlist = "@{viewModel.playlist}"
 
 
 

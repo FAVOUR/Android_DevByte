@@ -34,7 +34,7 @@ data class NetworkVideo(
      }
  }
 
- fun NetworkVideoContainer.asDataBaseModel():List<DatabaseVideo>{
+ fun NetworkVideoContainer.asDatabaseModel():List<DatabaseVideo>{
      return videos.map {
          DatabaseVideo(
              title = it.title,

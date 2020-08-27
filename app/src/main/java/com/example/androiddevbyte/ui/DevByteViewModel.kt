@@ -2,10 +2,12 @@ package com.example.androiddevbyte.ui
 
 import android.app.Application
 import androidx.lifecycle.*
+import com.example.androiddevbyte.database.VideosDatabase
+import com.example.androiddevbyte.database.getDatabase
 import com.example.androiddevbyte.domain.DevByteVideo
 import com.example.androiddevbyte.network.DevByteNetwork
 import com.example.androiddevbyte.network.addDomainModel
-import com.example.androiddevbyte.network.asDataBaseModel
+import com.example.androiddevbyte.repository.VideoRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -47,12 +49,12 @@ class DevByteViewModel(application: Application) :AndroidViewModel(application) 
      */
     private val _playList = MutableLiveData<List<DevByteVideo>>()
 
-    /**
+/*    *//**
      * A playlist of videos that can be shown on the screen. Views should use this to get access
      * to the data.
-     */
+     *//*
     val playlist: LiveData<List<DevByteVideo>>
-        get() = _playList
+        get() = _playList*/
 
 
     /**
@@ -88,7 +90,8 @@ class DevByteViewModel(application: Application) :AndroidViewModel(application) 
      * init{} is called immediately when this ViewModel is created.
      */
     init {
-        refreshDataFromNetwork()
+//        refreshDataFromNetwork()
+        refreshDataFromRepository()
     }
 
 
@@ -97,18 +100,44 @@ class DevByteViewModel(application: Application) :AndroidViewModel(application) 
      * background thread.
      */
 
-    private fun refreshDataFromNetwork() = viewModelScope.launch {
-        try {
-            val playlist = DevByteNetwork.devbytes.getPlaylist().await()
+//    private fun refreshDataFromNetwork() = viewModelScope.launch {
+//        try {
+//            val playlist = DevByteNetwork.devbytes.getPlaylist().await()
+//
+//            _playList.value = playlist.addDomainModel()
+////            _playList.postValue(playlist.addDomainModel())
+//
+//            _eventNetworkError.value = false
+//            _isNetworkErrorShown.value = false
+//        } catch (e: IOException) {
+//            // Show a Toast error message and hide the progress bar.
+//            _eventNetworkError.value = true
+//        }
+//    }
 
-            _playList.value = playlist.addDomainModel()
-//            _playList.postValue(playlist.addDomainModel())
+    val videosRepository = VideoRepository(database = getDatabase(application.baseContext))
 
-            _eventNetworkError.value = false
-            _isNetworkErrorShown.value = false
-        } catch (e: IOException) {
-            // Show a Toast error message and hide the progress bar.
-            _eventNetworkError.value = true
+    /**
+     * A playlist of videos displayed on the screen.
+     */
+    val playlist = videosRepository.videos
+
+    /**
+     * Refresh data from the repository. Use a coroutine launch to run in a
+     * background thread.
+     */
+    private fun refreshDataFromRepository() {
+        viewModelScope.launch {
+            try {
+                videosRepository.refreshVideos()
+                _eventNetworkError.value = false
+                _isNetworkErrorShown.value = false
+
+            } catch (networkError: IOException) {
+                // Show a Toast error message and hide the progress bar.
+                if(playlist.value.isNullOrEmpty())
+                    _eventNetworkError.value = true
+            }
         }
     }
 

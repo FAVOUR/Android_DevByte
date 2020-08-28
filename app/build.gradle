@@ -82,6 +82,11 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
 
 
+//    WorkManager
+    // Kotlin + coroutines
+    def work_version = "2.4.0"
+    implementation "androidx.work:work-runtime-ktx:$work_version"
+
 
     // glide for images
     implementation 'com.github.bumptech.glide:glide:4.8.0'

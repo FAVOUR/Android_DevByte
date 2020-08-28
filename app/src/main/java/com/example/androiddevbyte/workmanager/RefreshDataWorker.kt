@@ -10,7 +10,7 @@ import com.example.androiddevbyte.ui.DevByteViewModel
 import retrofit2.HttpException
 import java.net.HttpCookie
 
-class RequestWorker(val context: Context,params:WorkerParameters):CoroutineWorker(context,params) {
+class RefreshDataWorker(val context: Context, params:WorkerParameters):CoroutineWorker(context,params) {
 
     override suspend fun doWork(): Result {
 

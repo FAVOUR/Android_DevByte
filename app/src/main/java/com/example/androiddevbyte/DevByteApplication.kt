@@ -1,9 +1,7 @@
 package com.example.androiddevbyte
 
 import android.app.Application
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
+import androidx.work.*
 import com.example.androiddevbyte.workmanager.RefreshDataWorker
 import com.example.androiddevbyte.workmanager.RefreshDataWorker.Companion.CONSTANT
 import kotlinx.coroutines.CoroutineScope
@@ -18,6 +16,9 @@ import java.util.concurrent.TimeUnit
 class DevByteApplication :Application(){
     var applicationScope = CoroutineScope (Dispatchers.IO)
 
+    val constraints = Constraints.Builder()
+                                             .setRequiredNetworkType(NetworkType.UNMETERED)
+                                             .build()
 
     override fun onCreate() {
        super.onCreate()
@@ -37,7 +38,7 @@ class DevByteApplication :Application(){
      */
     private fun setupRecurringWork() {
         val repeatingRequest = PeriodicWorkRequestBuilder<RefreshDataWorker>(15,TimeUnit.MINUTES)
-//         repeatingRequest.setConstraints()
+             .setConstraints(constraints)
              .build()
 
 
